@@ -117,20 +117,7 @@
       text-decoration: none;
       white-space: nowrap;
     }
-    .brand-icon {
-      width: clamp(34px, 3vw, 43px);
-      height: auto;
-      display: block;
-      flex: none;
-      fill: var(--navy);
-    }
-    .brand-name {
-      font-family: "Outfit", system-ui, sans-serif;
-      font-weight: 600;
-      letter-spacing: -.052em;
-      font-size: clamp(27px, 2.45vw, 36px);
-      line-height: 1;
-    }
+    .brand-logo { display: block; width: clamp(168px, 15vw, 230px); height: auto; flex: none; }
     .desktop-nav { display: flex; align-items: center; gap: clamp(26px, 3.4vw, 59px); }
     .desktop-nav a, .desktop-nav button {
       padding: 10px 0;
@@ -311,8 +298,7 @@
     @media (max-width: 650px) {
       .header { padding: 24px 24px; }
       .brand { gap: 9px; }
-      .brand-icon { width: 32px; }
-      .brand-name { font-size: 27px; }
+      .brand-logo { width: 168px; }
       .desktop-nav { display: none; }
       .mobile-nav { display: block; position: relative; }
       .mobile-nav summary { list-style: none; cursor: pointer; font-weight: 600; font-size: 14px; border: 1px solid var(--edge); padding: 10px 15px; border-radius: 100px; background: rgba(255,255,255,.36); }
@@ -359,14 +345,7 @@
 
     <header class="header">
       <a href="#top" class="brand" aria-label="Sapuluah home">
-        <!-- Exact 10-tile structure from the approved Figma symbol: 80×80 modules, 8px grid gap, 25px rounding -->
-        <svg class="brand-icon" viewBox="0 0 344 344" focusable="false" aria-hidden="true">
-          <rect x="88" y="0" width="80" height="80" rx="25"/><rect x="176" y="0" width="80" height="80" rx="25"/><rect x="264" y="0" width="80" height="80" rx="25"/>
-          <rect x="0" y="88" width="80" height="80" rx="25"/><rect x="88" y="88" width="80" height="80" rx="25"/>
-          <rect x="176" y="176" width="80" height="80" rx="25"/><rect x="264" y="176" width="80" height="80" rx="25"/>
-          <rect x="0" y="264" width="80" height="80" rx="25"/><rect x="88" y="264" width="80" height="80" rx="25"/><rect x="176" y="264" width="80" height="80" rx="25"/>
-        </svg>
-        <span class="brand-name">sapuluah</span>
+        <img class="brand-logo" src="./assets/sapuluah-logo.svg" width="1677" height="397" alt="" decoding="async" />
       </a>
       <nav class="desktop-nav" aria-label="Primary navigation">
         <a href="https://github.com/nabilrn?tab=repositories" target="_blank" rel="noopener noreferrer">Projects</a>
