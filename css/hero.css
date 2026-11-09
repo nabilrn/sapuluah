@@ -57,7 +57,7 @@
       content: "";
       position: absolute;
       inset: 0;
-      z-index: 1;
+      z-index: 6;
       pointer-events: none;
       background:
         linear-gradient(90deg, rgba(4,35,84,.52) 0%, rgba(4,46,101,.30) 31%, rgba(4,48,102,.06) 63%, transparent 80%),
@@ -65,7 +65,7 @@
     }
     .top-scrim {
       position: absolute;
-      z-index: 5;
+      z-index: 7;
       inset: 0 0 auto;
       height: 170px;
       pointer-events: none;
@@ -274,7 +274,7 @@
       .mobile-links a, .mobile-links button { text-decoration: none; font-size: 15px; color: var(--navy); border: 0; background: transparent; text-align: left; padding: 0; }
       .hero { align-items: flex-start; min-height: calc(100svh - 88px); padding: 0 24px; }
       .hero-copy { width: 100%; padding-top: clamp(84px, 13vh, 140px); padding-bottom: 300px; }
-      h1 { font-size: clamp(54px, 11vw, 78px); max-width: 530px; }
+      h1 { font-size: clamp(32px, 10vw, 56px); max-width: 530px; }
       .description { font-size: clamp(17px, 4.2vw, 19px); margin-top: 28px; max-width: 390px; }
       .cta { margin-top: 35px; min-width: 228px; height: 63px; padding-left: 24px; font-size: 17px; }
       .cta-orb { width: 51px; height: 51px; flex-basis: 51px; }
