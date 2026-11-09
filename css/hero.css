@@ -24,67 +24,96 @@
       outline: 3px solid var(--blue);
       outline-offset: 5px;
     }
-    /* One permanent generated sky photograph, shared by the base and occlusion layer. */
-    /* Atmospheric sky is calculated entirely in CSS; no full-screen photo. */
+    /* Sky is pure CSS; illustrated anime cloud layers are independent assets. */
     .page {
       position: relative;
       isolation: isolate;
       min-height: 100svh;
       overflow: hidden;
       background:
-        radial-gradient(ellipse 72% 68% at 15% 82%, rgba(89,185,231,.24) 0%, rgba(89,185,231,0) 70%),
-        radial-gradient(ellipse 60% 55% at 76% 53%, rgba(11,91,164,.14) 0%, transparent 78%),
-        linear-gradient(180deg, #0B4E93 0%, #126BAE 34%, #308FCE 67%, #86C9EC 100%);
+        radial-gradient(ellipse 72% 76% at 10% 96%, rgba(131,221,252,.34), transparent 76%),
+        radial-gradient(ellipse 58% 65% at 72% 52%, rgba(17,113,190,.19), transparent 80%),
+        linear-gradient(180deg, #094582 0%, #0B65B2 38%, #238FCD 70%, #80D5F6 100%);
     }
     .page::before {
       content: "";
       position: absolute;
-      inset: 0;
       z-index: 0;
+      inset: 0;
       pointer-events: none;
-      background: linear-gradient(90deg, rgba(7,42,85,.29) 0%, rgba(7,42,85,.13) 38%, transparent 74%);
+      background:
+        radial-gradient(ellipse 41% 50% at -7% 7%, rgba(244,248,255,.17), transparent 76%),
+        linear-gradient(90deg, rgba(2,38,86,.12) 0%, transparent 57%);
+    }
+    /* Soft diagonal sunlight, painted only with CSS; no video or canvas. */
+    .sunlight {
+      position: absolute;
+      z-index: 1;
+      inset: 0;
+      pointer-events: none;
+      opacity: .32;
+      background:
+        conic-gradient(from 94deg at -3% -7%,
+          transparent 0deg, rgba(255,239,200,.12) 13deg,
+          transparent 19deg, rgba(255,246,230,.19) 25deg,
+          transparent 32deg, rgba(255,251,236,.09) 37deg,
+          transparent 52deg);
+      -webkit-mask-image: linear-gradient(130deg, #000, transparent 67%);
+      mask-image: linear-gradient(130deg, #000, transparent 67%);
+      animation: sunlight-breathe 26s ease-in-out infinite alternate;
     }
     /*
-      Cloud SVGs embed compressed photographic assets with a chroma-to-alpha
-      filter. They are true transparent composited layers, not JPEG sky masks.
-      Order: sky 0 > mid-cloud 1 > code 2 > front-cloud 3 > scrim 4 > content.
+      Mid-cloud -> marquee -> foreground-cloud form a real layered depth stack.
+      Each cloud SVG embeds original hand-painted anime artwork whose green
+      matte is converted to transparent alpha using an SVG colour matrix.
     */
-    .cloud-mid,
-    .cloud-front {
+    .cloud-mid, .cloud-front {
       position: absolute;
       pointer-events: none;
       background-repeat: no-repeat;
       background-position: right bottom;
       background-size: contain;
-      transform: translateZ(0);
+      transform: translate3d(0, 0, 0);
+      will-change: transform;
     }
     .cloud-mid {
-      z-index: 1;
+      z-index: 2;
       right: -10vw;
-      bottom: -5vh;
-      width: min(112vw, 1900px);
-      height: 68vh;
-      background-image: url("../assets/cloud-mid.svg");
-      opacity: .79;
+      bottom: -9vh;
+      width: min(106vw, 1880px);
+      height: 59vh;
+      background-image: url("../assets/anime-cloud-mid.svg");
+      opacity: .68;
+      animation: cloud-mid-drift 135s ease-in-out infinite alternate;
     }
     .cloud-front {
-      z-index: 3;
-      right: -8vw;
-      bottom: -10vh;
-      width: min(116vw, 2000px);
-      height: 88vh;
-      background-image: url("../assets/cloud-front.svg");
+      z-index: 4;
+      right: -7vw;
+      bottom: -15vh;
+      width: min(115vw, 2000px);
+      height: 91vh;
+      background-image: url("../assets/anime-cloud-front.svg");
+      animation: cloud-front-drift 108s ease-in-out infinite alternate;
     }
     .top-scrim {
       position: absolute;
-      z-index: 4;
+      z-index: 5;
       inset: 0 0 auto;
-      height: 210px;
+      height: 175px;
       pointer-events: none;
-      background: linear-gradient(180deg,
-        rgba(5,35,76,.31) 0%,
-        rgba(5,35,76,.15) 43%,
-        rgba(5,35,76,0) 100%);
+      background: linear-gradient(180deg, rgba(3,35,78,.24) 0%, rgba(3,35,78,.09) 54%, transparent);
+    }
+    @keyframes cloud-mid-drift {
+      from { transform: translate3d(-15px, 3px, 0) scale(1); }
+      to { transform: translate3d(20px, -5px, 0) scale(1.012); }
+    }
+    @keyframes cloud-front-drift {
+      from { transform: translate3d(8px, 0, 0) scale(1); }
+      to { transform: translate3d(-18px, -7px, 0) scale(1.009); }
+    }
+    @keyframes sunlight-breathe {
+      from { opacity: .19; }
+      to { opacity: .38; }
     }
     .header {
       position: relative;
@@ -121,7 +150,7 @@
     .mobile-nav { display: none; }
     .hero {
       position: relative;
-      z-index: 4;
+      z-index: 8;
       width: 100%;
       max-width: 1680px;
       margin: auto;
@@ -196,43 +225,37 @@
     }
     .cta-orb svg { width: 23px; height: 23px; stroke: #fff; stroke-width: 1.9; transition: transform .25s ease; }
     .cta:hover .cta-orb svg { transform: translateX(4px); }
-    /*
-      Seamless ambient code: one moving flex track containing two IDENTICAL
-      segments. A 50% translation equals exactly one complete segment.
-      Duration comes from the measured segment width, maintaining constant
-      px/second velocity at every viewport and font size.
-    */
-    /* The three code ribbons live BETWEEN the two photographic cloud layers. */
+    /* Code lives behind anime clouds rather than overlaid on a single photo. */
     .code-atmosphere {
       position: absolute;
-      z-index: 2;
+      z-index: 3;
       pointer-events: none;
       left: 47%;
-      right: -18%;
-      top: 35%;
-      height: 37%;
+      right: -20%;
+      top: 34%;
+      height: 41%;
       overflow: hidden;
       transform: rotate(-5deg);
-      -webkit-mask-image: linear-gradient(90deg, transparent, #000 16%, #000 88%, transparent);
-      mask-image: linear-gradient(90deg, transparent, #000 16%, #000 88%, transparent);
+      -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 18%, #000 85%, transparent);
+      mask-image: linear-gradient(90deg, transparent 0%, #000 18%, #000 85%, transparent);
     }
     .code-row {
       position: absolute;
-      left: -7%;
-      width: 143%;
+      left: -8%;
+      width: 146%;
       overflow: hidden;
       white-space: nowrap;
-      font: 500 clamp(13px, 1.08vw, 17px)/1.4 "Geist Mono", ui-monospace, monospace;
-      color: #e7f6ff;
-      letter-spacing: -.025em;
-      text-shadow: 0 1px 5px rgba(0,48,110,.26);
+      font: 500 clamp(13px, 1vw, 17px)/1.4 "Geist Mono", ui-monospace, monospace;
+      letter-spacing: -.022em;
+      color: #edf9ff;
+      text-shadow: 0 1px 5px rgba(4,50,106,.23);
       opacity: var(--row-opacity, .68);
       user-select: none;
       -webkit-font-smoothing: antialiased;
     }
-    .code-row[data-row="0"] { top: 7%; --row-opacity: .48; }
-    .code-row[data-row="1"] { top: 41%; --row-opacity: .72; }
-    .code-row[data-row="2"] { top: 76%; --row-opacity: .55; }
+    .code-row[data-row="0"] { top: 7%; --row-opacity: .43; }
+    .code-row[data-row="1"] { top: 41%; --row-opacity: .70; }
+    .code-row[data-row="2"] { top: 75%; --row-opacity: .49; }
     .code-marquee {
       display: flex;
       width: max-content;
@@ -276,7 +299,7 @@
       .hero-copy { width: min(720px, 66%); }
       h1 { font-size: clamp(56px, 7.1vw, 86px); }
       .code-atmosphere { left: 34%; top: 39%; }
-      .cloud-front { right: -18vw; width: 125vw; height: 79vh; }
+      .cloud-front { right: -19vw; width: 128vw; height: 79vh; }
     }
     @media (max-width: 650px) {
       .header { padding: 24px 24px; }
@@ -298,10 +321,11 @@
       .description { font-size: clamp(17px, 4.2vw, 19px); margin-top: 28px; max-width: 390px; }
       .cta { margin-top: 35px; min-width: 228px; height: 63px; padding-left: 24px; font-size: 17px; }
       .cta-orb { width: 51px; height: 51px; flex-basis: 51px; }
-      .page { background: radial-gradient(ellipse 85% 55% at 17% 72%, rgba(68,171,227,.23), transparent 83%), linear-gradient(180deg, #0A4B8D 0%, #1474B5 52%, #7AC8EA 100%); }
-      .cloud-mid { right: -36vw; width: 156vw; height: 35vh; bottom: -2vh; opacity: .60; }
-      .cloud-front { right: -55vw; width: 170vw; height: 55vh; bottom: -8vh; }
-      .top-scrim { height: 145px; background: linear-gradient(180deg, rgba(4,32,72,.32), transparent); }
+      .page { background: radial-gradient(ellipse 92% 64% at 9% 85%, rgba(89,186,230,.25), transparent), linear-gradient(180deg, #094481 0%, #116DB5 58%, #7BD3F1 100%); }
+      .cloud-mid { right: -40vw; width: 160vw; height: 36vh; bottom: -6vh; opacity: .56; }
+      .cloud-front { right: -55vw; width: 175vw; height: 54vh; bottom: -10vh; }
+      .top-scrim { height: 145px; background: linear-gradient(180deg, rgba(3,30,70,.28), transparent); }
+      .sunlight { opacity: .18; }
       .code-atmosphere { left: 5%; right: -60%; width: 155%; top: auto; bottom: 18%; height: 25%; transform: rotate(-5deg); }
       .code-row { font-size: 12px; }
       .code-row[data-row="2"] { display: none; }
