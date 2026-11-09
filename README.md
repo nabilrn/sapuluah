@@ -1,14 +1,17 @@
 # Sapuluah
 
-The public hero uses an original hand-painted, anime-inspired cloud atmosphere. The sky is rendered by CSS gradients; two independent cloud illustration layers drift at different speeds. The animated code marquee is between the distant and foreground clouds, while logo, navigation, headline and CTA remain on top.
+Sapuluah's first landing-page hero, built as a lightweight static website for GitHub Pages.
 
-## Assets
+## Pixel-inspired sky v3
 
-- `assets/anime-cloud-mid.svg`: isolated painted distant cloud artwork, with alpha keyed from a green-screen source.
-- `assets/anime-cloud-front.svg`: detailed foreground painterly cumulus bank, independently animated.
-- `assets/sapuluah-logo-white.svg`: approved vector logo from [Sapuluah Figma](https://www.figma.com/design/hSaUNHp6vbSZjcNt11N0uq/Sapuluah?node-id=5-264).
+The current hero uses **one original self-hosted pixel-sky illustration** generated specifically for this project. Its blue sky and stepped pastel cloud bank are part of one coherent image, so there are no green-screen masks, color-fringing, transparent cloud exports, or extra image downloads. The image **contains no text or UI**; the brand logo, headline, navigation and Get Started CTA stay as actual accessible HTML.
 
-The older photographic assets are retained temporarily for rollback but no longer referenced by the live CSS.
+- `assets/pixel-sky.jpg`: primary pixel-inspired sky artwork, optimized JPEG (771×430, ~260 KB).
+- `css/hero.css`: layout, responsive sky scene, contrast-safe overlays, foreground scene masking.
+- `js/marquee.js`: measured seamless scrolling code rows, positioned in the open sky with cloud-bank occlusion.
+- `assets/sapuluah-logo-white.svg`: approved, original Figma vector logo.
+
+Previous `assets/anime-cloud*.svg` and `assets/cloud*.svg` remain committed as rollback references but are no longer served by the page.
 
 ## Run locally
 
@@ -16,4 +19,14 @@ The older photographic assets are retained temporarily for rollback but no longe
 python3 -m http.server 8080
 ```
 
-Open `http://localhost:8080`. GitHub Pages serves the site directly from `main`. No build pipeline or runtime library is required. Animations respect `prefers-reduced-motion`.
+Visit http://localhost:8080.
+
+The site requires no build tooling. For GitHub Pages select **Deploy from a branch → main → /(root)**.
+
+## Brand source
+
+[Approved Sapuluah logo in Figma](https://www.figma.com/design/hSaUNHp6vbSZjcNt11N0uq/Sapuluah?node-id=5-264).
+
+## Accessibility
+
+Pixel-sky artwork is decorative, dynamic code rows are `aria-hidden`, and `prefers-reduced-motion` disables marquee movement. Mobile layout prioritizes legible text over decorative code.
