@@ -54,7 +54,7 @@
       inset: 0;
       z-index: 0;
       pointer-events: none;
-      background: linear-gradient(90deg, rgba(10, 49, 95, .08), transparent 62%);
+      background: linear-gradient(90deg, rgba(7,51,103,.33), rgba(7,68,120,.15) 47%, transparent 78%), linear-gradient(180deg, rgba(5,39,87,.13), transparent 52%);
     }
     /*
       Use the exact same photo twice so code scrolls across the open sky,
@@ -106,7 +106,8 @@
       border: 0;
       background: none;
       text-decoration: none;
-      color: var(--navy);
+      color: #fff;
+      text-shadow: 0 1px 10px rgba(0,40,88,.22);
       font-size: 15px;
       font-weight: 500;
       transition: opacity .2s ease;
@@ -134,27 +135,32 @@
       margin: 0 0 clamp(26px, 3vw, 43px);
       font-size: clamp(11px, 1vw, 15px);
       font-weight: 600;
-      letter-spacing: .12em;
-      color: #148ede;
+      letter-spacing: .14em;
+      color: #fff;
+      text-shadow: 0 1px 12px rgba(9,45,85,.22);
     }
     h1 {
       font-family: "Outfit", system-ui, sans-serif;
       font-size: clamp(62px, 6.65vw, 118px);
-      font-weight: 600;
-      line-height: .99;
-      letter-spacing: -.062em;
+      font-weight: 500;
+      line-height: 1.01;
+      letter-spacing: -.048em;
       max-width: 790px;
       margin: 0;
       text-wrap: balance;
+      color: #fff;
+      text-shadow: 0 2px 20px rgba(9,45,85,.13);
     }
     .description {
-      color: #48627f;
+      color: rgba(255,255,255,.98);
       font-size: clamp(18px, 1.75vw, 27px);
       line-height: 1.46;
       letter-spacing: -.025em;
       max-width: 610px;
       margin: clamp(27px, 3vw, 43px) 0 0;
+      text-shadow: 0 1px 14px rgba(8,39,80,.22);
     }
+    /* White primary CTA with an understated blue arrow accent. */
     .cta {
       margin-top: clamp(34px, 4vw, 54px);
       display: inline-flex;
@@ -164,57 +170,34 @@
       padding: 5px 5px 5px 31px;
       min-width: 262px;
       height: 72px;
-      border: 1px solid rgba(5,60,115,.17);
+      border: 1px solid rgba(255,255,255,.80);
       border-radius: 999px;
-      background: linear-gradient(110deg, #0c1933 0%, #09234c 71%, #0a579c 100%);
-      color: white;
+      background: #fff;
+      color: var(--navy);
       text-decoration: none;
-      box-shadow: 0 11px 25px rgba(10, 74, 130, .12), inset 0 1px rgba(255,255,255,.20);
+      box-shadow: 0 8px 23px rgba(10,57,104,.09);
       font-size: 19px;
       font-weight: 600;
       letter-spacing: -.025em;
-      transition: transform .26s ease, box-shadow .26s ease;
-      position: relative;
-      overflow: hidden;
-      isolation: isolate;
+      transition: transform .24s ease, box-shadow .24s ease;
     }
-    .cta::before {
-      content: "";
-      position: absolute;
-      top: -35%;
-      left: -60%;
-      width: 55%;
-      height: 170%;
-      transform: skewX(-25deg);
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.08), transparent);
-      transition: left .55s ease;
-      pointer-events: none;
+    .cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 13px 28px rgba(10,57,104,.16);
     }
-    .cta:hover { transform: translateY(-3px); box-shadow: 0 18px 35px rgba(10,74,130,.19), inset 0 1px rgba(255,255,255,.22); }
-    .cta:hover::before { left: 110%; }
-    .cta-text { position: relative; z-index: 1; }
+    .cta-text { position: relative; }
     .cta-orb {
-      position: relative;
       width: 60px;
       height: 60px;
       flex: 0 0 60px;
       border-radius: 50%;
-      overflow: hidden;
       display: grid;
       place-items: center;
-      background: linear-gradient(144deg, #43c8ff 0%, #1d9ce6 50%, #a6e1ff 100%);
-      border: 1px solid rgba(223,249,255,.75);
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,.24), 0 0 12px rgba(30,183,255,.24);
+      background: linear-gradient(145deg, #4bcaff, #229fdf);
+      border: 1px solid rgba(255,255,255,.80);
+      box-shadow: inset 0 1px 1px rgba(255,255,255,.32);
     }
-    .cta-orb::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: url("./assets/hero-sky.jpg") center 64%/cover;
-      opacity: .54;
-      mix-blend-mode: screen;
-    }
-    .cta-orb svg { width: 23px; height: 23px; stroke-width: 2; position: relative; z-index: 2; transition: transform .25s ease; filter: drop-shadow(0 1px 3px rgba(0,0,0,.15)); }
+    .cta-orb svg { width: 23px; height: 23px; stroke: #fff; stroke-width: 1.9; transition: transform .25s ease; }
     .cta:hover .cta-orb svg { transform: translateX(4px); }
     .code-atmosphere {
       position: absolute;
@@ -282,7 +265,7 @@
       .brand-logo { width: 168px; }
       .desktop-nav { display: none; }
       .mobile-nav { display: block; position: relative; }
-      .mobile-nav summary { list-style: none; cursor: pointer; font-weight: 600; font-size: 14px; border: 1px solid var(--edge); padding: 10px 15px; border-radius: 100px; background: rgba(255,255,255,.36); }
+      .mobile-nav summary { list-style: none; cursor: pointer; font-weight: 600; font-size: 14px; color: #fff; border: 1px solid rgba(255,255,255,.60); padding: 10px 15px; border-radius: 100px; background: rgba(5,54,112,.18); }
       .mobile-nav summary::-webkit-details-marker { display: none; }
       .mobile-nav[open] .mobile-links {
         display: flex; flex-direction: column; gap: 16px; position: absolute; top: 54px; right: 0; min-width: 180px;
@@ -325,7 +308,7 @@
     
     <header class="header">
       <a href="#top" class="brand" aria-label="Sapuluah home">
-        <img class="brand-logo" src="./assets/sapuluah-logo.svg" width="1677" height="397" alt="" decoding="async" />
+        <img class="brand-logo" src="./assets/sapuluah-logo-white.svg" width="1677" height="397" alt="" decoding="async" />
       </a>
       <nav class="desktop-nav" aria-label="Primary navigation">
         <a href="https://github.com/nabilrn?tab=repositories" target="_blank" rel="noopener noreferrer">Projects</a>
