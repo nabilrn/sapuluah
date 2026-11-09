@@ -191,6 +191,12 @@
     }
     .cta-orb svg { width: 23px; height: 23px; stroke: #fff; stroke-width: 1.9; transition: transform .25s ease; }
     .cta:hover .cta-orb svg { transform: translateX(4px); }
+    /*
+      Seamless ambient code: one moving flex track containing two IDENTICAL
+      segments. A 50% translation equals exactly one complete segment.
+      Duration comes from the measured segment width, maintaining constant
+      px/second velocity at every viewport and font size.
+    */
     .code-atmosphere {
       position: absolute;
       z-index: 1;
@@ -200,37 +206,54 @@
       top: 28%;
       height: 64%;
       overflow: hidden;
-      -webkit-mask-image: linear-gradient(90deg, transparent, #000 17%, #000 88%, transparent);
-      mask-image: linear-gradient(90deg, transparent, #000 17%, #000 88%, transparent);
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 92%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 12%, #000 92%, transparent);
       transform: rotate(-7deg);
     }
     .code-row {
       position: absolute;
       left: -8%;
       width: 145%;
-      display: flex;
       overflow: hidden;
       white-space: nowrap;
-      font: 500 clamp(13px, 1.18vw, 19px)/1.3 "Geist Mono", ui-monospace, monospace;
-      letter-spacing: -.02em;
-      color: rgba(241,252,255,.77);
-      text-shadow: 0 0 15px rgba(255,255,255,.75), 0 1px 1px rgba(0,66,115,.2);
+      font: 600 clamp(14px, 1.23vw, 20px)/1.35 "Geist Mono", ui-monospace, monospace;
+      letter-spacing: -.025em;
+      color: #f7fcff;
+      text-shadow: 0 1px 2px rgba(5, 37, 84, .90), 0 0 12px rgba(4, 56, 116, .62);
       user-select: none;
-      opacity: var(--alpha, .65);
-      filter: blur(var(--blur, 0px));
+      opacity: var(--row-opacity, .90);
+      -webkit-font-smoothing: antialiased;
     }
-    .code-row[data-row="0"] { top: 5%; --speed: 41s; --alpha: .32; --blur: .75px; }
-    .code-row[data-row="1"] { top: 23%; --speed: 48s; --alpha: .69; }
-    .code-row[data-row="2"] { top: 42%; --speed: 38s; --alpha: .85; }
-    .code-row[data-row="3"] { top: 61%; --speed: 54s; --alpha: .62; --blur: .3px; }
-    .code-row[data-row="4"] { top: 81%; --speed: 45s; --alpha: .48; }
-    .code-row-track {
+    .code-row[data-row="0"] { top: 5%;  --row-opacity: .75; }
+    .code-row[data-row="1"] { top: 23%; --row-opacity: .91; }
+    .code-row[data-row="2"] { top: 42%; --row-opacity: .98; }
+    .code-row[data-row="3"] { top: 61%; --row-opacity: .87; }
+    .code-row[data-row="4"] { top: 81%; --row-opacity: .79; }
+    .code-marquee {
+      display: flex;
+      width: max-content;
+      animation: code-scroll-left var(--marquee-duration, 50s) linear infinite;
+      animation-play-state: paused;
+      will-change: transform;
+      transform: translate3d(0, 0, 0);
+      backface-visibility: hidden;
+    }
+    .code-row.is-ready .code-marquee { animation-play-state: running; }
+    .code-row[data-direction="right"] .code-marquee { animation-name: code-scroll-right; }
+    .code-segment {
+      display: block;
       flex: 0 0 auto;
-      padding-inline-end: 5rem;
-      animation: marquee var(--speed, 44s) linear infinite;
+      white-space: nowrap;
+      padding-inline-end: clamp(68px, 6vw, 120px);
     }
-    .code-row:nth-child(even) .code-row-track { animation-direction: reverse; }
-    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+    @keyframes code-scroll-left {
+      from { transform: translate3d(0, 0, 0); }
+      to   { transform: translate3d(-50%, 0, 0); }
+    }
+    @keyframes code-scroll-right {
+      from { transform: translate3d(-50%, 0, 0); }
+      to   { transform: translate3d(0, 0, 0); }
+    }
     /* Deliberately simple supporting UI: no extra sections until the site grows. */
     dialog {
       padding: 0; border: 1px solid rgba(28, 90, 149, .12); border-radius: 24px;
@@ -249,7 +272,7 @@
       .hero-copy { width: min(720px, 66%); }
       h1 { font-size: clamp(56px, 7.1vw, 86px); }
       .code-atmosphere { left: 34%; top: 39%; }
-      .cloud-photo { width: 127%; right: -30%; height: 67%; }
+      .cloud-photo { background-position: 58% center; }
     }
     @media (max-width: 650px) {
       .header { padding: 24px 24px; }
@@ -347,7 +370,8 @@
     </div>
   </dialog>
   <script>
-    // Moving, readable code lives in the sky: no faux terminal, container or code panel.
+    // Two copies of ONE measured sequence move together, so the loop has no seam.
+    // Velocity = distance / duration (CSS pixels per second), regardless of viewport.
     const fragments = [
       "const product = await deploy()",
       "git push --deploy",
@@ -360,15 +384,49 @@
       "Promise.all([design(), engineer()])",
       "npm run build && npm run deploy"
     ];
-    for (const row of document.querySelectorAll(".code-row")) {
-      const mixed = [...fragments].sort(() => Math.random() - 0.5).slice(0, 6).join("    //    ");
-      for (let repeat = 0; repeat < 2; repeat++) {
-        const track = document.createElement("span");
-        track.className = "code-row-track";
-        track.textContent = mixed + "    //    ";
-        row.append(track);
+    const rows = [...document.querySelectorAll(".code-row")];
+    const velocities = [56, 67, 61, 73, 58]; // px/s, subtly varied by depth
+    const rowPhrases = rows.map((_, index) =>
+      Array.from({ length: 7 }, (_, step) =>
+        fragments[(index * 2 + step * 3) % fragments.length]
+      ).join("   //   ") + "   //   "
+    );
+
+    function sizeMarquee(row, index) {
+      row.classList.remove("is-ready");
+      row.dataset.direction = index % 2 === 0 ? "left" : "right";
+
+      const track = document.createElement("div");
+      track.className = "code-marquee";
+      const segment = document.createElement("span");
+      segment.className = "code-segment";
+      segment.textContent = rowPhrases[index];
+      track.append(segment);
+      row.replaceChildren(track);
+
+      // The sequence must exceed the visible row. This also works on 4K screens.
+      const requiredWidth = row.clientWidth + 160;
+      while (segment.getBoundingClientRect().width < requiredWidth) {
+        segment.textContent += rowPhrases[index];
       }
+
+      const segmentWidth = segment.getBoundingClientRect().width;
+      track.append(segment.cloneNode(true));
+      track.style.setProperty("--marquee-duration", (segmentWidth / velocities[index]).toFixed(3) + "s");
+      row.classList.add("is-ready");
     }
+
+    function rebuildMarquees() {
+      rows.forEach(sizeMarquee);
+    }
+    rebuildMarquees();
+    // Re-measure when Geist Mono finishes loading, or the viewport changes size.
+    if (document.fonts?.ready) document.fonts.ready.then(rebuildMarquees);
+    let resizeJob;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeJob);
+      resizeJob = setTimeout(rebuildMarquees, 180);
+    }, { passive: true });
     document.querySelectorAll("[data-open]").forEach((button) => {
       button.addEventListener("click", () => {
         document.querySelector(".mobile-nav")?.removeAttribute("open");
