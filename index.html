@@ -14,6 +14,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./css/hero.css" />
+  <link rel="stylesheet" href="./css/world.css" />
 </head>
 <body>
   <div class="page" id="top">
@@ -56,6 +57,23 @@
     </main>
   </div>
 
+  <!-- One scenic chapter after the approved hero. Project cards come later. -->
+  <section class="world" id="world" aria-labelledby="world-title">
+    <div class="world-stage">
+      <div class="world-art" aria-hidden="true"></div>
+      <div class="world-cloudveil" aria-hidden="true"></div>
+      <div class="world-shade" aria-hidden="true"></div>
+      <div class="world-copy">
+        <div class="world-kicker"><span class="world-kicker-line" aria-hidden="true"></span> THE WORLD BELOW</div>
+        <h2 id="world-title">Beyond the clouds,<br />ideas take shape.</h2>
+        <p>A new perspective on the things we're building.</p>
+        <a class="world-link" href="https://github.com/nabilrn?tab=repositories" target="_blank" rel="noopener noreferrer">
+          Explore our work <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
   <dialog id="about-dialog" aria-labelledby="about-title">
     <div class="dialog-body">
       <div class="dialog-top"><span class="dialog-kicker">ABOUT SAPULUAH</span><button class="dialog-close" type="button" data-close aria-label="Close dialog">×</button></div>
@@ -73,5 +91,6 @@
     </div>
   </dialog>
   <script src="./js/dialogs.js" defer></script>
+  <script src="./js/world.js" defer></script>
 </body>
 </html>
