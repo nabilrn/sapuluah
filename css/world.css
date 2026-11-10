@@ -1,93 +1,87 @@
-/* Second chapter only. The approved pixel-sky hero and CTA remain untouched. */
+/* Scene 02: descend into the canyon without restarting the sky artwork. */
+.page {
+  z-index: 2;
+  /* Crossfade only the lower hero edge, preserving its typography and CTA. */
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 78%, rgba(0,0,0,.96) 86%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 78%, rgba(0,0,0,.96) 86%, transparent 100%);
+}
 .world {
-  --world-cloud-opacity: .98;
-  --world-zoom: 1.045;
-  --world-shift: 0px;
-  --world-copy-opacity: 1;
-  --world-copy-offset: 0px;
+  --world-drift: 0px;
   position: relative;
-  height: 175svh;
+  z-index: 1;
+  margin-top: -20svh;
+  height: 120svh;
+  min-height: 650px;
   isolation: isolate;
-  background: #2da7d7;
+  overflow: hidden;
+  background: #36b2d7;
 }
 .world-stage {
-  position: sticky;
-  top: 0;
-  height: 100svh;
-  min-height: 440px;
+  position: relative;
+  height: 100%;
   overflow: hidden;
   isolation: isolate;
-  background: #46b8df;
 }
 .world-art,
-.world-cloudveil,
 .world-shade {
   position: absolute;
-  inset: 0;
   pointer-events: none;
 }
 .world-art {
   z-index: 0;
-  inset: -3%;
-  background: #34b8d9 url("../assets/world-canyon.avif") center center / cover no-repeat;
+  inset: -5%;
+  /* Crop away the duplicate open sky to reveal canyon, river and cliffs. */
+  background: #3db6d8 url("../assets/world-canyon.avif") 50% 100% / auto 185% no-repeat;
   image-rendering: pixelated;
-  transform: translate3d(0, var(--world-shift), 0) scale(var(--world-zoom));
-  transform-origin: 50% 65%;
+  transform: translate3d(0, var(--world-drift), 0) scale(1.025);
+  transform-origin: 50% 82%;
   will-change: transform;
 }
-.world-cloudveil {
-  z-index: 1;
-  opacity: var(--world-cloud-opacity);
-  background: url("../assets/pixel-sky.jpg") center center / cover no-repeat;
-  image-rendering: pixelated;
-  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 32%, rgba(0,0,0,.84) 54%, transparent 92%);
-  mask-image: linear-gradient(180deg, #000 0%, #000 32%, rgba(0,0,0,.84) 54%, transparent 92%);
-}
 .world-shade {
-  z-index: 2;
+  z-index: 1;
+  inset: 0;
   background:
-    linear-gradient(90deg, rgba(4,37,80,.44) 0%, rgba(5,58,104,.19) 39%, transparent 72%),
-    linear-gradient(180deg, rgba(6,57,120,.10), transparent 43%);
+    linear-gradient(90deg, rgba(5,47,91,.48) 0%, rgba(4,70,113,.14) 58%, transparent 88%),
+    linear-gradient(180deg, rgba(9,141,192,.12) 0%, transparent 33%);
 }
 .world-copy {
   position: absolute;
-  z-index: 3;
+  z-index: 2;
+  top: clamp(205px, 39svh, 355px);
   left: max(clamp(24px, 5.15vw, 88px), calc((100vw - 1504px) / 2));
-  top: clamp(115px, 22vh, 250px);
   width: min(670px, calc(100% - 48px));
   color: #fff;
-  text-shadow: 0 1px 14px rgba(6,46,85,.25);
+  text-shadow: 0 2px 14px rgba(5,39,79,.32);
 }
 .world-kicker {
   display: flex;
   align-items: center;
   gap: 14px;
+  margin-bottom: 23px;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: .20em;
   text-transform: uppercase;
-  margin-bottom: 25px;
 }
 .world-kicker-line {
   display: inline-block;
   width: 36px;
   height: 2px;
   background: #c1f1ff;
-  box-shadow: 0 0 14px rgba(170,243,255,.45);
 }
 .world-copy h2 {
-  margin: 0;
   max-width: 750px;
+  margin: 0;
   color: #fff;
-  font-size: clamp(44px, 5.3vw, 88px);
+  font-size: clamp(44px, 5.3vw, 84px);
   font-weight: 500;
   letter-spacing: -.065em;
   line-height: 1.04;
 }
 .world-copy p {
-  margin: clamp(18px, 2vw, 27px) 0 0;
   max-width: 540px;
-  color: rgba(255,255,255,.96);
+  margin: clamp(18px, 2vw, 27px) 0 0;
+  color: rgba(255,255,255,.98);
   font-size: clamp(17px, 1.55vw, 23px);
   line-height: 1.5;
   letter-spacing: -.022em;
@@ -96,42 +90,40 @@
   display: inline-flex;
   align-items: center;
   gap: 13px;
-  margin-top: 29px;
+  margin-top: 27px;
   padding: 0 0 9px;
-  border-bottom: 1px solid rgba(255,255,255,.88);
+  border-bottom: 1px solid rgba(255,255,255,.92);
   color: #fff;
   font-size: 16px;
-  font-weight: 650;
+  font-weight: 600;
   text-decoration: none;
-  text-shadow: 0 1px 12px rgba(3,41,81,.25);
   transition: gap .25s ease, border-color .25s ease;
 }
 .world-link:hover { gap: 20px; border-color: #a9efff; }
 .world-link:focus-visible { outline-color: #fff; }
-.world.is-animated .world-copy {
-  opacity: var(--world-copy-opacity);
-  transform: translate3d(0, var(--world-copy-offset), 0);
-  will-change: opacity, transform;
-}
-@media (min-width: 1700px) {
-  .world-copy { left: calc((100vw - 1504px) / 2); }
-}
 @media (max-width: 650px) {
-  .world { height: 150svh; }
-  .world-stage { min-height: 420px; }
-  .world-art {
-    inset: -2%;
-    background-position: 60% 54%;
-    transform-origin: 61% 72%;
+  .page {
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 77%, rgba(0,0,0,.95) 84%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 77%, rgba(0,0,0,.95) 84%, transparent 100%);
   }
-  .world-cloudveil { background-position: 76% center; }
+  .world {
+    margin-top: -18svh;
+    height: 118svh;
+    min-height: 720px;
+  }
+  .world-art {
+    inset: -4%;
+    background-size: auto 125%;
+    background-position: 74% 100%;
+    transform-origin: 74% 88%;
+  }
   .world-shade {
     background:
-      linear-gradient(180deg, rgba(5,48,106,.45) 0%, rgba(9,85,125,.22) 48%, transparent 80%),
-      linear-gradient(90deg, rgba(6,39,83,.21), transparent 80%);
+      linear-gradient(180deg, rgba(6,53,106,.22), rgba(5,69,112,.26) 49%, transparent 88%),
+      linear-gradient(90deg, rgba(5,44,89,.24), transparent 87%);
   }
   .world-copy {
-    top: clamp(90px, 17svh, 185px);
+    top: clamp(215px, 34svh, 345px);
     left: 24px;
     width: calc(100% - 48px);
   }
@@ -139,11 +131,8 @@
   .world-kicker-line { width: 26px; }
   .world-copy h2 { font-size: clamp(37px, 9vw, 58px); max-width: 480px; }
   .world-copy p { font-size: 16px; max-width: 350px; }
-  .world-link { font-size: 15px; margin-top: 23px; }
+  .world-link { font-size: 15px; margin-top: 22px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .world { height: 100svh; }
   .world-art { transform: none !important; will-change: auto; }
-  .world-cloudveil { opacity: .22 !important; }
-  .world-copy { opacity: 1 !important; transform: none !important; will-change: auto; }
 }
