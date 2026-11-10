@@ -1,12 +1,16 @@
 <svg width="344" height="344" viewBox="0 0 344 344" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect x="88" width="80" height="80" rx="25" fill="#0C1933"/>
-<rect x="176" width="80" height="80" rx="25" fill="#0C1933"/>
-<rect x="264" width="80" height="80" rx="25" fill="#0C1933"/>
-<rect y="88" width="80" height="80" rx="25" fill="#0C1933"/>
-<rect x="88" y="88" width="80" height="80" rx="25" fill="#0C1933"/>
-<rect x="176" y="176" width="80" height="80" rx="25" fill="#0C1933"/>
-<rect x="264" y="176" width="80" height="80" rx="25" fill="#0C1933"/>
-<rect y="264" width="80" height="80" rx="25" fill="#0C1933"/>
-<rect x="88" y="264" width="80" height="80" rx="25" fill="#0C1933"/>
-<rect x="176" y="264" width="80" height="80" rx="25" fill="#0C1933"/>
+  <title>Sapuluah</title>
+  <rect width="344" height="344" rx="78" fill="#0C1933"/>
+  <g transform="translate(32 32) scale(0.814)">
+    <rect x="88" width="80" height="80" rx="25" fill="#FFFFFF"/>
+    <rect x="176" width="80" height="80" rx="25" fill="#FFFFFF"/>
+    <rect x="264" width="80" height="80" rx="25" fill="#FFFFFF"/>
+    <rect y="88" width="80" height="80" rx="25" fill="#FFFFFF"/>
+    <rect x="88" y="88" width="80" height="80" rx="25" fill="#FFFFFF"/>
+    <rect x="176" y="176" width="80" height="80" rx="25" fill="#FFFFFF"/>
+    <rect x="264" y="176" width="80" height="80" rx="25" fill="#FFFFFF"/>
+    <rect y="264" width="80" height="80" rx="25" fill="#FFFFFF"/>
+    <rect x="88" y="264" width="80" height="80" rx="25" fill="#FFFFFF"/>
+    <rect x="176" y="264" width="80" height="80" rx="25" fill="#FFFFFF"/>
+  </g>
 </svg>

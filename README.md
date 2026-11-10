@@ -7,8 +7,9 @@ Sapuluah's first landing-page hero, built as a lightweight static website for Gi
 The current hero uses **one original self-hosted pixel-sky illustration** generated specifically for this project. Its blue sky and stepped pastel cloud bank are part of one coherent image, so there are no green-screen masks, color-fringing, transparent cloud exports, or extra image downloads. The image **contains no text or UI**; the brand logo, headline, navigation and Get Started CTA stay as actual accessible HTML.
 
 - `assets/pixel-sky.jpg`: primary pixel-inspired sky artwork, optimized JPEG (771×430, ~260 KB).
-- `css/hero.css`: layout, responsive sky scene, contrast-safe overlays, foreground scene masking.
-- `js/marquee.js`: measured seamless scrolling code rows, positioned in the open sky with cloud-bank occlusion.
+- `css/hero.css`: layout, responsive sky scene, contrast-safe overlays, and the sculpted, shimmering CTA.
+- `js/dialogs.js`: lightweight About/Contact dialog interactions.
+- `favicon.svg`: original white Sapuluah mark on navy for browser-tab contrast.
 - `assets/sapuluah-logo-white.svg`: approved, original Figma vector logo.
 
 Previous `assets/anime-cloud*.svg` and `assets/cloud*.svg` remain committed as rollback references but are no longer served by the page.
@@ -29,4 +30,4 @@ The site requires no build tooling. For GitHub Pages select **Deploy from a bran
 
 ## Accessibility
 
-Pixel-sky artwork is decorative, dynamic code rows are `aria-hidden`, and `prefers-reduced-motion` disables marquee movement. Mobile layout prioritizes legible text over decorative code.
+Pixel-sky artwork is decorative. CTA animation respects `prefers-reduced-motion`. Mobile layout prioritizes legible text and controls.
